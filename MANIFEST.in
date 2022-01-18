@@ -1,0 +1,3 @@
+include Cpywpa/ccore/include/*
+include Cpywpa/ccore/c_cpw_core.c
+include Cpywpa/ccore/_cpywpa_core.pyx

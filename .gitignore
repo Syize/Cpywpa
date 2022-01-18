@@ -1,0 +1,8 @@
+venv/
+.idea/
+build/
+dist/
+Cpywpa.egg-info/
+test.*
+*.pyc
+*.so
