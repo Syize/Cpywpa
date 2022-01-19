@@ -13,12 +13,12 @@ ext_modules = [
 ]
 
 this_directory = path.abspath(path.dirname(__file__))
-with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+with open(path.join(this_directory, 'README_PYPI.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
     name="Cpywpa",
-    version='0.2',
+    version='1.0',
     description='Cpywpa is another simple tools to control wpa_supplicant. It use Cython to interact with OFFICIAL C '
                 'interface',
     long_description=long_description,
