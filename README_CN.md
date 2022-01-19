@@ -35,7 +35,7 @@ python3 -m pip install Cpywpa
 ⚠ 注意 ⚠
 
 1. **由于只有 root 用户才能与 wpa_supplicant 通信，下面的代码都是通过 sudo 运行或由 root 用户运行**
-2. 所有的网络配置都将保存在 /etc/wpa_supplicant/wpa_supplicant.conf 中，由于密码是铭文存储的，所以十分不建议在重要的计算机上使用此程序。
+2. 所有的网络配置都将保存在 /etc/wpa_supplicant/wpa_supplicant.conf 中，由于密码是明文存储的，所以十分不建议在重要的计算机上使用此程序。
 
 下面是使用指南。
 
