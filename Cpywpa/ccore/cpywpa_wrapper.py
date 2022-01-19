@@ -1,4 +1,5 @@
 from time import sleep
+from urllib import parse
 
 from ._cpywpa_core import cpw_core
 from .cpywpa_error import *
@@ -79,11 +80,10 @@ class NetworkManager(cpw_core):
             'disable': 0
         }
 
-    def connect(self, network_name, name=None, passwd=None, key_mgmt='WPA-PSK', priority=None):
+    def connect(self, network_name, passwd=None, key_mgmt='WPA-PSK', priority=None):
         """
         connect to an existed Wi-Fi or a new Wi-Fi
-        :param network_name: Wi-Fi ssid in config
-        :param name: Wi-Fi ssid
+        :param network_name: Wi-Fi ssid
         :param passwd: Wi-Fi password
         :param key_mgmt: Wi-Fi accepted authenticated key management protocols
         :param priority: priority tells wpa_supplicant which Wi-Fi it should connect when more than two AP exits
@@ -94,13 +94,13 @@ class NetworkManager(cpw_core):
             if self._SelectNetwork(_network_id).split('\n')[0] == 'FAIL':
                 raise ConnectError('connect to Wi-Fi: {} failed'.format(network_name))
         else:
-            if name is None or passwd is None:
+            if network_name is None or passwd is None:
                 raise ConnectError('neither network_name nor new Wi-Fi information is given, can\'t connect')
             else:
-                self.addNetwork(name=name, passwd=passwd, key_mgmt=key_mgmt, priority=priority)
-                _network_id = self._saved_wifi[name]['id']
+                self.addNetwork(name=network_name, passwd=passwd, key_mgmt=key_mgmt, priority=priority)
+                _network_id = self._saved_wifi[network_name]['id']
                 if self._SelectNetwork(_network_id).split('\n')[0] == 'FAIL':
-                    raise ConnectError('connect to Wi-Fi: {} failed'.format(name))
+                    raise ConnectError('connect to Wi-Fi: {} failed'.format(network_name))
         self._generateSavedWiFi()
 
     def onlyScan(self):
@@ -135,6 +135,7 @@ class NetworkManager(cpw_core):
         # the first line is 'bssid / frequency / signal level / flags / ssid'
         scan_results = self._ScanResults().split('\n')[1:]
         wifi_info = []
+        _warn_flag = 0
         for _wifi in scan_results:
             _wifi_params: list = _wifi.split('\t')
             if len(_wifi_params) < 5:
@@ -142,11 +143,14 @@ class NetworkManager(cpw_core):
                 continue
             if '\\x' in _wifi_params[-1]:
                 # possibly it is Chinese name
-                print(
-                    '[WARN]: detect string \'\\x\' in ssid, if your Wi-Fi name is in Chinese, please ignore this. If '
-                    'your actual Wi-Fi name contains string \'\\x\', then please ignore the wrong name in result. '
-                    'However, some unexpected error may occur.')
+                if not _warn_flag:
+                    print(
+                        '[WARN]: detect string \'\\x\' in ssid, if your Wi-Fi name is in Chinese, please ignore this. '
+                        'If your actual Wi-Fi name contains string \'\\x\', then please ignore the wrong name in '
+                        'result. However, some unexpected error may occur.')
+                    _warn_flag = 1
                 _wifi_ssid = _wifi_params[-1].encode('raw_unicode_escape').decode('utf-8')
+                _wifi_ssid = parse.unquote(_wifi_ssid.replace('\\x', '%'))
             else:
                 _wifi_ssid = _wifi_params[-1]
             wifi_info.append({'ssid': _wifi_ssid, 'bssid': _wifi_params[0]})
@@ -178,3 +182,32 @@ class NetworkManager(cpw_core):
             key, value = _key_value.split('=')
             status[key] = value
         return status
+
+    def scanResults(self):
+        """
+        get scan results
+        :return: dict including Wi-Fi information
+        """
+        scan_results = self._ScanResults().split('\n')[1:]
+        wifi_info = []
+        _warn_flag = 0
+        for _wifi in scan_results:
+            _wifi_params: list = _wifi.split('\t')
+            if len(_wifi_params) < 5:
+                # the info is uncompleted
+                continue
+            if '\\x' in _wifi_params[-1]:
+                # possibly it is Chinese name
+                if not _warn_flag:
+                    print(
+                        '[WARN]: detect string \'\\x\' in ssid, if your Wi-Fi name is in Chinese, please ignore this. '
+                        'If your actual Wi-Fi name contains string \'\\x\', then please ignore the wrong name in '
+                        'result. However, some unexpected error may occur.')
+                    _warn_flag = 1
+                _wifi_ssid = _wifi_params[-1].encode('raw_unicode_escape').decode('utf-8')
+                _wifi_ssid = parse.unquote(_wifi_ssid.replace('\\x', '%'))
+
+            else:
+                _wifi_ssid = _wifi_params[-1]
+            wifi_info.append({'ssid': _wifi_ssid, 'bssid': _wifi_params[0]})
+        return wifi_info

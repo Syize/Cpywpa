@@ -6,3 +6,4 @@ Cpywpa.egg-info/
 test.*
 *.pyc
 *.so
+Cpywpa/ccore/_cpywpa_core.c
