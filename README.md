@@ -113,3 +113,4 @@ manager.removeNetwork('Syize')
 ## To-Do
 
 - While wpa_supplicant is cross-plantform, different gcc's macro is required during installation. But till now only Linux version has been tested, and I only add Linux's macro to setup.py. It will be great if you help me completely complete this program.
+- For now, Cpywpa only supportes several parameters including ssid, psk, priority and key_mgmt. I'm going to add other parameters support. However I merely use them. So it is diffcult to say when I will add.
