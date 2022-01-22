@@ -107,6 +107,10 @@ manager = NetworkManager()
 manager.removeNetwork('Syize')
 ```
 
+## 如何二次开发
+
+参见 [Dev Guide](DevelopmentGuide.md) | [开发指南](DevGuide_CN.md)
+
 ## 已知的问题
 
 - 在扫描结果中中文 Wi-Fi 名称可以被正确显示，**但是添加和连接具有中文名称的网络还没有被测试。**一些意外的问题有可能会发生。

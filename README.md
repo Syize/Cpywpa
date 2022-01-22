@@ -106,6 +106,10 @@ manager = NetworkManager()
 manager.removeNetwork('Syize')
 ```
 
+## How to development
+
+See [Dev Guide](DevelopmentGuide.md) | [开发指南](DevGuide_CN.md)
+
 ## Issues
 
 - Chinese Wi-Fi name can show correctly in scan and scanResults, but add Wi-Fi with Chinese name **HASN'T BEEN TESTED YET.** Unexpected problems may occur.

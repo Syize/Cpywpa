@@ -1,1 +1,1 @@
-from .cpywpa_wrapper import NetworkManager
+from .cpywpa_wrapper import NetworkManager, cpw_core
