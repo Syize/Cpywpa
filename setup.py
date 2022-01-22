@@ -18,7 +18,7 @@ with open(path.join(this_directory, 'README_PYPI.md'), encoding='utf-8') as f:
 
 setup(
     name="Cpywpa",
-    version='1.0',
+    version='1.0.1',
     description='Cpywpa is another simple tools to control wpa_supplicant. It use Cython to interact with OFFICIAL C '
                 'interface',
     long_description=long_description,
