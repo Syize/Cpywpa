@@ -63,6 +63,7 @@ int reconnect(char* reply_message, struct wpa_ctrl* p_wpa_ctrl)
 ```cython
 # cpw_core funtions
 # all funtions below except _AddNetwork() return message if success or 1 if error occurs
+
 # transform C char* stored in reply_message to Python string and return it.
 cdef to_string(self)
 # fill reply_message with 0
@@ -100,7 +101,7 @@ def _Recconect(self)
 你可以定义一个 Python 的类来继承 Cython 的扩展类 *cpw\_core*，并使用 super 函数来进行初始化。然后你就可以愉快的在使用 *cpw\_core* 中函数的同时用 Python 进行开发啦！
 
 ```python
-from ccore import cpw_core
+from Cpywpa.ccore import cpw_core
 
 class YourOwnClass(cpw_core):
     def __init__(self):

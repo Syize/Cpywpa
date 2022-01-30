@@ -98,7 +98,7 @@ def _Recconect(self)
 You can simple define another **Python** class inherits from *cpw\_core*. But do remember to call super in \_\_init\_\_. Then you can use all the functions defined in *cpw\_core*.
 
 ```python
-from ccore import cpw_core
+from Cpywpa.ccore import cpw_core
 
 class YourOwnClass(cpw_core):
     def __init__(self):
